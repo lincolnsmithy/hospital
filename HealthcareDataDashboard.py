@@ -1,10 +1,10 @@
 from shiny import App, ui, render
 import pandas as pd
 import matplotlib.pyplot as plt
-from map_keys import provider_type
+from map_keys import provider_type, sub_category
 
 #columns I care about
-desired_columns = ['PRVDR_NUM', 'STATE_CD', 'PRVDR_CTGRY_CD', 'CITY_NAME', 'ZIP_CD', 'ST_ADR', 'ELGBLTY_SW']
+desired_columns = ['PRVDR_CTGRY_SBTYP_CD','PRVDR_NUM', 'STATE_CD', 'PRVDR_CTGRY_CD', 'CITY_NAME', 'ZIP_CD', 'ST_ADR', 'ELGBLTY_SW']
 
 # Read the data
 df = pd.read_csv("data/Hospital_and_Other_data_Q2_2025.csv", usecols=desired_columns)
@@ -27,6 +27,11 @@ app_ui = ui.page_sidebar(
             "provider_type",
             "Provider Type",
             choices=["All"] + [f"{code} - {desc}" for code, desc in provider_type.items()]
+        ),
+        ui.input_select(
+            "sub_type",
+            "Provider Sub Type",
+            choices=["All"] + [f"{code} - {desc}" for code, desc in sub_category.items()]
         )
     ),
     ui.navset_tab(
@@ -86,6 +91,11 @@ def server(input, output, session):
         if input.provider_type() != "All":
             code = int(input.provider_type().split(" - ")[0])
             filtered_df = filtered_df[filtered_df["PRVDR_CTGRY_CD"] == code]
+
+        if input.sub_type() != "All":
+            code = int(input.sub_type().split(" - ")[0])
+            filtered_df = filtered_df[filtered_df["PRVDR_CTGRY_SBTYP_CD"] == code]
+
 
         return filtered_df
 

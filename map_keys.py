@@ -18,3 +18,22 @@ provider_type = {
     19: 'Community Mental Health Center',
     21: 'Federally Qualified Health Center',
 }
+
+sub_category = {
+    1: "Short Term",
+    2: "Long Term",
+    3: "Religious Non-Medical Health Care Institutions",
+    4: "Psychiatric",
+    5: "Rehabilitation",
+    6: "Childrens Hospitals",
+    7: "Distinct Part Psychiatric Hospital",
+    11: "Critical Access Hospitals",
+    20: "Transplant Hospitals",
+    22: "Medicaid Only Short-Term Hospitals",
+    23: "Medicaid Only Childrens Hospitals",
+    24: "Medicaid Only Children's Psychiatric",
+    25: "Medicaid Only Psychiatric Hospitals",
+    26: "Medicaid Only Rehabilitation Hospitals",
+    27: "Medicaid Only Long-Term Hospitals",
+    28: "Rural Emergency Hospital"
+}
