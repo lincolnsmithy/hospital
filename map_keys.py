@@ -9,7 +9,7 @@ provider_type = {
     8: 'Outpatient Physical Therapy Speech Pathology',
     9: 'End Stage Renal Disease Facility',
     10: 'Nursing Facility',
-    11: 'Intermediate Care Facility/Individuals withIntellectual Disabilities',
+    11: 'Intermediate Care Facility/Individuals with Intellectual Disabilities',
     12: 'Rural Health Clinic',
     14: 'Comprehensive Outpatient Rehab Facility',
     15: 'Ambulatory Surgical Center',

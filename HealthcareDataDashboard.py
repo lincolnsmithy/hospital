@@ -3,8 +3,16 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from map_keys import provider_type
 
+#columns I care about
+desired_columns = ['PRVDR_NUM', 'STATE_CD', 'PRVDR_CTGRY_CD', 'CITY_NAME', 'ZIP_CD', 'ST_ADR', 'ELGBLTY_SW']
+
 # Read the data
-df = pd.read_csv("data/Hospital_and_Other_data_Q2_2025.csv")
+df = pd.read_csv("data/Hospital_and_Other_data_Q2_2025.csv", usecols=desired_columns)
+
+
+
+num_columns = df.shape[1]
+print(f"Number of columns: {num_columns}")
 
 app_ui = ui.page_sidebar(
     ui.sidebar(
@@ -12,7 +20,8 @@ app_ui = ui.page_sidebar(
         ui.input_select(
             "state",
             "Select State",
-            choices=["All"] + sorted(df["STATE_CD"].unique().tolist())
+            choices=["All"] + sorted(df["STATE_CD"].unique().tolist()),
+            #multiple=True
         ),
         ui.input_select(
             "provider_type",
@@ -140,7 +149,8 @@ def server(input, output, session):
     @render.data_frame
     def detailed_table():
         filtered_df = get_filtered_data()
-        return filtered_df.head(100)
+        return render.DataGrid(filtered_df.head(200))
+        #return filtered_df.head(100)
 
 
 app = App(app_ui, server)
