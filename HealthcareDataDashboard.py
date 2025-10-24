@@ -1,6 +1,7 @@
 from shiny import App, ui, render
 import pandas as pd
 import matplotlib.pyplot as plt
+from map_keys import provider_type
 
 # Read the data
 df = pd.read_csv("data/Hospital_and_Other_data_Q2_2025.csv")
@@ -16,7 +17,7 @@ app_ui = ui.page_sidebar(
         ui.input_select(
             "provider_type",
             "Provider Type",
-            choices=["All"] + sorted(df["PRVDR_CTGRY_CD"].unique().tolist())
+            choices=["All"] + [f"{code} - {desc}" for code, desc in provider_type.items()]
         )
     ),
     ui.navset_tab(
@@ -48,11 +49,11 @@ app_ui = ui.page_sidebar(
                              ui.card_header("Provider Type Distribution"),
                              ui.output_plot("provider_distribution")
                          ),
-                         ui.card(
-                             ui.card_header("Facility Details"),
-                             ui.output_table("facility_table")
-                         ),
-                         width=1 / 2
+                         #ui.card(
+                         #    ui.card_header("Facility Details"),
+                         #    ui.output_table("facility_table")
+                         #),
+                         #width=1 / 2
                      )
                      ),
         ui.nav_panel("Detailed Analysis",
@@ -74,7 +75,8 @@ def server(input, output, session):
             filtered_df = filtered_df[filtered_df["STATE_CD"] == input.state()]
 
         if input.provider_type() != "All":
-            filtered_df = filtered_df[filtered_df["PRVDR_CTGRY_CD"] == int(input.provider_type())]
+            code = int(input.provider_type().split(" - ")[0])
+            filtered_df = filtered_df[filtered_df["PRVDR_CTGRY_CD"] == code]
 
         return filtered_df
 
